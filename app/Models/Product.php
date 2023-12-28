@@ -22,13 +22,13 @@ class Product extends Model
 //        return $this->hasMany(ProductSize::class,  'product_id', 'id');
 ////            ->orderByDesc('id');
 //    }
-    public function article()
-    {
-        return $this->belongsToMany(Article::class, 'id','product_id');
-    }
-    public function relatedProducts()
-    {
-        return $this->hasMany(RelatedProduct::class, 'product_id', 'id');
-    }
+//    public function article()
+//    {
+//        return $this->belongsToMany(Article::class, 'id','product_id');
+//    }
+//    public function relatedProducts()
+//    {
+//        return $this->hasMany(RelatedProduct::class, 'product_id', 'id');
+//    }
 }
 

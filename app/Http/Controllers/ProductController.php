@@ -159,14 +159,14 @@ class ProductController extends Controller
     {
         try {
 
-            $sizes = ProductSize::where('product_id', $product['id'])->where('stock', '>', 0)->get(['color_name', 'color_code']);
+            $sizes = ProductSize::where('product_id', $product['id'])->where('stock', '>', 0)->get();
             $sizes = json_decode($sizes);
 //            return $sizes;
             $colors = [];
             foreach ($sizes as $item) {
-                array_push($colors, json_encode(['color_name' => $item->color_name, 'color_code' => $item->color_code]));
+                array_push($colors, json_encode($item));
             }
-            return response(['product' => new ProductResource($product), 'colors' => array_unique($colors)], 200);
+            return response(['product' => new ProductResource($product), 'sizes' => array_unique($colors)], 200);
         } catch (\Exception $exception) {
             return response($exception);
         }
@@ -221,7 +221,7 @@ class ProductController extends Controller
             return response()->json($validator->messages(), 422);
         }
         try {
-            $product = Product::create($request->except('image','related_products'));
+            $product = Product::create($request->except('image','sizes'));
             if ($request['image']) {
                 $name = 'product_' . $product['id'] . '_' . uniqid() . '.png';
                 $image_path = (new ImageController)->uploadImage($request['image'], $name, 'images/products/');
@@ -229,15 +229,16 @@ class ProductController extends Controller
 
                 (new ImageController)->resizeImage('images/products/',$name);
             }
-            if ($request['related_products']){
-                foreach ($request['related_products'] as $item){
-                    RelatedProduct::create([
-                        'product_id' => $product['id'],
-                        'related_product_id' => $item,
-                    ]);
-                }
+            foreach ($request['sizes'] as $item) {
+                ProductSize::create([
+                    'product_id' => $product['id'],
+                    'size' => $item['size'],
+                    'stock' => $item['stock'],
+                    'sale' => 0,
+                ]);
             }
-            return response(new ProductResource($product), 201);
+
+                return response(new ProductResource($product), 201);
         } catch (\Exception $exception) {
             return response($exception);
         }
@@ -247,7 +248,7 @@ class ProductController extends Controller
     {
         $validator = Validator::make($request->all('title'),
             [
-//                'title' => 'required|unique:products,title,' . $product['id'],
+//              'title' => 'required|unique:products,title,' . $product['id'],
                 'title' => 'required',
             ],
             [
@@ -260,7 +261,7 @@ class ProductController extends Controller
             return response()->json($validator->messages(), 422);
         }
         try {
-            $product->update($request->except('image','related_products'));
+            $product->update($request->except('image','sizes','removedSizes'));
             if ($request['image']) {
                 $name = 'product_' . $product['id'] . '_' . uniqid() . '.png';
                 $image_path = (new ImageController)->uploadImage($request['image'], $name, 'images/products/');
@@ -277,15 +278,23 @@ class ProductController extends Controller
 
 
             }
-
-            $relatedZ = RelatedProduct::where('product_id', $request['id'])->get();
-            foreach ($relatedZ as $item){ $item->delete();}
-
-            if ($request['related_products']){
-                foreach ($request['related_products'] as $item){
-                    RelatedProduct::create([
+            foreach ($request['removedSizes'] as $item) {
+                $size = ProductSize::where('id', $item)->first();
+                $size->delete();
+            }
+            foreach ($request['sizes'] as $item) {
+                if ($item['id']) {
+                    ProductSize::where('id',$item['id'])->first()->update([
+                        'size' => $item['size'],
+                        'stock' => $item['stock'],
+                        'sale' => 0
+                    ]);
+                } else {
+                    ProductSize::create([
                         'product_id' => $product['id'],
-                        'related_product_id' => $item,
+                        'size' => $item['size'],
+                        'stock' => $item['stock'],
+                        'sale' => 0
                     ]);
                 }
             }

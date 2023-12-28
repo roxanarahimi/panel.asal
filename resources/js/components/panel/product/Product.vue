@@ -1,22 +1,19 @@
 <template>
     <transition name="route" mode="out-in" appear>
         <section class="" style="text-align: justify">
-            <div class="row " v-if="data.id">
+            <div class="row "  v-if="data.id">
                 <div class="col-12 ">
-                    <div class="row px-3 ">
-                        <div class="col-12 mb-3 ">
+                    <div class="row ">
+                        <div class="col-12 mb-3">
                             <div class="d-inline-block mt-5">
-                                <div class="ind">
-                                    <img class="img-fluid mb-2" :src="data.image" width="350" alt="">
-                                    <div class="label">
-                                        <span class="badge bg-danger">
-                                            <i class="bi bi-tags-fill ms-2"></i>
-                                            <b v-if="data.category">  {{ data.category.title }}</b>
-                                        </span>
-                                    </div>
+                                <div class="label">
+                            <span class="badge bg-danger">
+                                <i class="bi bi-tags-fill me-2"></i>
+                                <b v-if="data.category">  {{ data.category.title }}</b>
+                            </span>
                                 </div>
                                 <h3 class="mb-2 fw-bold d-block">{{ data.title }}</h3>
-                                <h4 class="mb-2 fw-bold d-block">{{ data.subTitle }}</h4>
+                                <p class="mb-2 fw-bold d-block">{{ data.subTitle }}</p>
                             </div>
                             <router-link :to="'/panel/edit/product/'+data.id" class="text-dark">
                 <span title="ویرایش محصول"
@@ -27,51 +24,54 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-
-                </div>
-
+                <!--                <div class="row">-->
+                <!--                    <p class="col-sm-4 col-md-3 col-xxl-2 mb-5" style="font-size: 14px">برای عوض کردن ترتیب تصاویر،-->
+                <!--                        در این لیست-->
+                <!--                        drag & drop کنید</p>-->
+                <!--                </div>-->
+                <!--                <div class="col-sm-4 col-md-3 col-xxl-2 mb-5">-->
+                <!--                    <div class="card h-100">-->
+                <!--                        <div class="card-body">-->
+                <!--                            <draggable ghost-class="moving-card" :animation="500" v-model="data.images"-->
+                <!--                                       @start="drag=true" @end="drag=false"-->
+                <!--                                       @drop="updateOrder" item-key="item" id="" class="row px-4 justify-content-center">-->
+                <!--                                <template #item="{element}">-->
+                <!--                                    <div class="text-center d-block mb-2" style="width: 140px">-->
+                <!--                                        <div class="border rounded p-1 " style="cursor: pointer">-->
+                <!--                                            <img class="img-fluid" :src="element">-->
+                <!--                                        </div>-->
+                <!--                                        <input type="hidden" name="order" :value="element">-->
+                <!--                                    </div>-->
+                <!--                                </template>-->
+                <!--                            </draggable>-->
+                <!--                        </div>-->
+                <!--                    </div>-->
+                <!--                </div>-->
+                <!--                <div class="col-sm-8 col-md-9 col-xxl-4 mb-5">-->
+                <!--                    <div class="card h-100">-->
+                <!--                        <div class="card-body justify-content-center">-->
+                <!--                            &lt;!&ndash;                                        <div class="row">&ndash;&gt;-->
+                <!--                            &lt;!&ndash;                                            <div v-for="(image, index) in data.images" :key="index"  v-if="data.images" class="col-4 d-flex mb-3 p-2">&ndash;&gt;-->
+                <!--                            &lt;!&ndash;                                                <div class="border rounded p-1">&ndash;&gt;-->
+                <!--                            &lt;!&ndash;                                                    <img class="img-fluid" :src="image">&ndash;&gt;-->
+                <!--                            &lt;!&ndash;                                                </div>&ndash;&gt;-->
+                <!--                            &lt;!&ndash;                                            </div>&ndash;&gt;-->
+                <!--                            &lt;!&ndash;                                        </div>&ndash;&gt;-->
+                <!--                            <images v-if="data.images" :images="data.images" class="w-100  mx-auto" style="max-width: 600px"/>-->
+                <!--                        </div>-->
+                <!--                    </div>-->
+                <!--                </div>-->
                 <div class="col-xxl-12 mb-5 ">
-                    <div class="card h-100">
-                        <div class="card-body p-md-5 ">
-                            <div class="d-md-flex justify-content-md-between ">
-                                <p>{{ data.title_en }}</p>
-                                <!--                                <p>{{ data.subTitle }}</p>-->
-                                <p>{{ data.flavor }}</p>
-                                <p>{{ data.flavor_en }}</p>
-                            </div>
-                            <div class="" v-if="data.link">
-                                <a target="_blank" :href="data.link">لینک خرید</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-xxl-12 mb-5 ">
-                    <div class="card h-100">
-                        <div class="card-body p-md-5 ">
-                            <h5 class="mb-5">ترکیبات</h5>
-
-                            <p>{{ data.ingredients}}</p>
-
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="col-lg-6 mb-5 ">
                     <div class="card h-100">
                         <div class="card-body p-md-5 ">
                             <div class="row">
-                                <div class="col-lg-12">
-                                    <h5 class="mb-5">ارزش غذایی</h5>
-                                    <table v-if="data.features">
-                                        <tbody>
-                                        <tr v-for="item in features" :key="item.id">
-                                            <th>{{ item.label }}:</th>
-                                            <td class="text-center">{{ item.unit }}</td>
-                                            <td class="text-center">{{ item.value }}</td>
-
+                                <div class="col-lg-12 table-responsive">
+                                    <h5>سایز ها</h5>
+                                    <table v-if="data.sizes">
+                                        <tbody >
+                                        <tr v-for="item in data.sizes" :key="item.id">
+                                            <th>{{ item.size }}:</th>
+                                            <td> موجودی:{{ item.stock }}عدد</td>
                                         </tr>
                                         </tbody>
                                     </table>
@@ -81,25 +81,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6 mb-5">
+                <div class="col-12 mb-3">
                     <div class="card h-100">
                         <div class="card-body p-md-5">
-                            <h5 class="mb-5">ویژگی</h5>
-
-                            <div id="text" style="font-size: 18px;white-space: pre-line; text-align: right !important"
-                                 class="mb-5">
-                                {{ data.text }}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-xxl-12 mb-5 ">
-                    <div class="card h-100">
-                        <div class="card-body p-md-5 ">
-                            <h5 class="mb-5">محصولات مرتبط</h5>
-
-                            <button v-for="item in data.related_products" :key="item.id" class="m-2 btn btn-sm btn-primary">{{ item.title}}</button>
+                            <div id="text" class="mb-5"></div>
                         </div>
                     </div>
                 </div>
@@ -137,20 +122,11 @@ export default {
             await axios.get('/api/panel/product/' + this.id)
                 .then((response) => {
                     this.data = response.data.product;
-                    // if (document.querySelector('#text')) {
-                    //     document.querySelector('#text').innerText = this.data.text;
-                    // }
-                    if (this.data.features) {
-                        this.features = [];
-                        for (let i = 0; i < JSON.parse(this.data.features).length; i++) {
-                            this.features.push(JSON.parse(this.data.features)[i]);
-                        }
+                    if (document.querySelector('#text')) {
+                        document.querySelector('#text').innerText = this.data.text;
                     }
-                    if (this.data.images) {
-                        for (let i = 0; i < this.data.images.length; i++) {
-                            this.images.push([i, this.data.images[i]]);
-                        }
-                    }
+
+                    console.log(this.data)
                 });
 
         },
@@ -238,9 +214,8 @@ export default {
     box-shadow: none;
 
 }
-
-th, td {
-    padding: 10px;
+th, td{
+    padding:10px;
     min-width: 100px;
 }
 </style>

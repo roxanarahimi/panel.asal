@@ -6,8 +6,8 @@
                 <tr>
                     <th class="table-first-cell" scope="col"></th>
                     <th class="d-none d-md-table-cell" style="width: 100px" scope="col">تصویر</th>
-                    <th scope="col">عنوان</th>
                     <th scope="col" class="d-none d-xl-table-cell text_cell">دسته</th>
+                    <th scope="col">عنوان</th>
 <!--                    <th scope="col">قیمت</th>-->
 <!--                    <th scope="col">%تخفیف</th>-->
 <!--                    <th class="">موجودی</th>-->
@@ -26,14 +26,15 @@
                         <img v-if="data.thumb" :src="data.thumb" width="80" alt="">
                         <!--       tumb-->
                     </td>
-                    <td>
-                        <router-link :to="'/panel/product/'+data.id">{{ data.title }}</router-link>
-                    </td>
+
 
                     <td class="d-none d-xl-table-cell text_cell"
                         :title="!data.category.active? 'دسته غیر فعال است': ''"
                         :class="{'text-decoration-line-through text-muted ': !data.category.active}">
                         {{ data.category.title }}
+                    </td>
+                    <td>
+                        <router-link :to="'/panel/product/'+data.id">{{ data.title }}</router-link>
                     </td>
 <!--                    <td>{{ data.price }}</td>-->
 <!--                    <td>{{ data.off }}</td>-->

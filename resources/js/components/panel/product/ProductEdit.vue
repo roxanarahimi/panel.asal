@@ -70,7 +70,7 @@
 
                                     <div class="col-md-12 mb-3" id="sizes">
                                         <div>
-                                            <label class="form-label mb-1 align-middle">سایز و رنگ</label>
+                                            <label class="form-label mb-1 align-middle">سایز</label>
                                             <span @click="addSize" class="px-3 d-inline-block align-middle"><i
                                                 class="bi bi-plus-circle-fill p-0 mt-2 m-0" style="font-size: 15px"></i></span>
                                         </div>

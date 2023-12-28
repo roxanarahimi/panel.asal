@@ -554,7 +554,7 @@ var _hoisted_32 = {
 
 var _hoisted_33 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
   "class": "form-label mb-1 align-middle"
-}, "سایز و رنگ", -1
+}, "سایز", -1
 /* HOISTED */
 );
 

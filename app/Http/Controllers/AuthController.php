@@ -109,7 +109,7 @@ class AuthController extends Controller
                 $sender = "";        //This is the Sender number
                 $message = "به وبسایت عسل لذیذ خوش آمدید. کد تایید شما: " .$Redis['value'];  //Redis::get($mobile);        //The body of SMS
                 $receptor = $request['mobile'];            //Receptors numbers
-//      ***     ***     $result = Kavenegar::Send($sender, $receptor, $message);
+                Kavenegar::Send($sender, $receptor, $message);
 //                $code = Redis::get($mobile);
 
 

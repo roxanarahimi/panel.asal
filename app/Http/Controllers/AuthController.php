@@ -103,7 +103,7 @@ class AuthController extends Controller
                 $randomString .= $characters[rand(0, $charactersLength - 1)];
             }
 //            Redis::set($mobile, $randomString, 60);
-            $Redis =  Redis::create(['mobile'=>$request['mobile'], 'value'=>  $randomString]);
+            $Redis =  Redis::create(['key'=>$request['mobile'], 'value'=>  $randomString]);
 
             try {
                 $sender = "";        //This is the Sender number

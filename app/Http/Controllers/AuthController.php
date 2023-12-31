@@ -8,9 +8,10 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Validator;
 use Nette\Utils\Random;
+use App\Models\Redis;
+
 
 class AuthController extends Controller
 {

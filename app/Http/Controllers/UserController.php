@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cache;
 use Illuminate\Http\Request;
 use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Hash;
@@ -70,15 +71,19 @@ class UserController extends Controller
             [
                 'name' => 'required|max:255',
                 'email' => 'required|email|max:255|unique:users',
-                'password' => 'required|min:3',
+                'phone'=>'required',
+                'mobile'=>'required|starts_with:09|min:11|max:11',
+
+
+//                'password' => 'required|min:3',
             ],
             [
                 'name.required' => 'لطفا نام را وارد کنید',
                 'name.max' => 'نام بیش از حد طولانی است',
                 'email.required' => 'لطفا ایمیل را وارد کنید',
                 'email.unique' => 'این ایمیل قبلا ثبت شده',
-                'password.required' => 'لطفا کلمه عبور را وارد کنید',
-                'password.min' => 'لطفا حد اقل 3 کاراکتر وارد کنید',
+//                'password.required' => 'لطفا کلمه عبور را وارد کنید',
+//                'password.min' => 'لطفا حد اقل 3 کاراکتر وارد کنید',
             ]
         );
         if ($validator->fails()) {
@@ -90,7 +95,7 @@ class UserController extends Controller
             $user = User::create([
                 'name' => $request['name'],
                 'email' => $request['email'],
-                'password' => Hash::make($request['password'])
+//                'password' => Hash::make($request['password'])
             ]);
             return response(new UserResource($user), 201);
         } catch (\Exception $exception) {
@@ -251,7 +256,7 @@ class UserController extends Controller
                 return $e->errorMessage();
             }
         } else {
-            return response('شما عضو نیستید لطفا ابتدا ثبت نام کنید سپس وارد شوید', 400);
+            return response('شما عضو سامانه نیستید لطفا ابتدا ثبت نام کنید سپس وارد شوید', 400);
         }
     }
 
@@ -269,7 +274,7 @@ class UserController extends Controller
 
     public function getOtp($mobile)
     {
-        $user = User::where('mobile', $mobile)->first();
+        $user = User::where('mobile', $mobile)->where('scope','user')->first();
         if ($user) {
             $characters = '1234567890';
             $charactersLength = strlen($characters);
@@ -278,11 +283,12 @@ class UserController extends Controller
                 $randomString .= $characters[rand(0, $charactersLength - 1)];
             }
 //            Redis::set($mobile, $randomString, 60);
+           $cache =  Cache::create(['mobile'=>$mobile, 'value'=>  $randomString]);
 
             try {
                 $sender = "2000500666";        //This is the Sender number
-                $message = "به وبسایت عسل لذیذ خوش آمدید. کد تایید شما: " . Redis::get($mobile);        //The body of SMS
-                $receptor = "09128222725";            //Receptors numbers
+                $message = "به وبسایت عسل لذیذ خوش آمدید. کد تایید شما:/n " .$cache['value'];  //Redis::get($mobile);        //The body of SMS
+                $receptor = $mobile;            //Receptors numbers
                 $result = Kavenegar::Send($sender, $receptor, $message);
 //                $code = Redis::get($mobile);
 
@@ -296,7 +302,7 @@ class UserController extends Controller
                 return $e->errorMessage();
             }
         } else {
-            return response('شما عضو نیستید لطفا ابتدا ثبت نام کنید سپس وارد شوید', 400);
+            return response('شما عضو سامانه نیستید لطفا ابتدا ثبت نام کنید سپس وارد شوید', 400);
         }
     }
 
@@ -331,8 +337,6 @@ class UserController extends Controller
             $sender = "10005989";        //This is the Sender number
 
             $message = "به وبسایت عسل لذیذ خوش آمدید";        //The body of SMS
-
-
 
             $receptor = $request['mobile'];            //Receptors numbers
 

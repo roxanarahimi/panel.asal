@@ -4,9 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\AdminResource;
 use App\Http\Resources\UserResource;
-use App\Models\Admin;
-use App\Models\Company;
-use App\Models\RxoRedis;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -102,11 +99,11 @@ class AuthController extends Controller
             if ((($user['scope'] == 'company' && $request['scope'] == 'company') || ($user['scope'] == 'user' && $request['scope'] == 'user'))
 
             ) {
-                $xo = RxoRedis::where('key', $request->mobile)->first();
+                $xo = Redis::where('key', $request->mobile)->first();
                 if ($xo) {
                     $xo->update(['value' => Random::generate(4, '0-9')]);
                 } else {
-                    $xo = RxoRedis::create(['key' => $request['mobile'], 'value' => Random::generate(4, '0-9')]);
+                    $xo = Redis::create(['key' => $request['mobile'], 'value' => Random::generate(4, '0-9')]);
                 }
                 return response($xo, 200);
 
@@ -127,11 +124,11 @@ class AuthController extends Controller
 
             }
         } else {
-            $xo = RxoRedis::where('key', $request->mobile)->first();
+            $xo = Redis::where('key', $request->mobile)->first();
             if ($xo) {
                 $xo->update(['value' => Random::generate(4, '0-9')]);
             } else {
-                $xo = RxoRedis::create(['key' => $request['mobile'], 'value' => Random::generate(4, '0-9')]);
+                $xo = Redis::create(['key' => $request['mobile'], 'value' => Random::generate(4, '0-9')]);
             }
             return response($xo, 200);
 
@@ -144,7 +141,7 @@ class AuthController extends Controller
     {
         try {
             $user = User::where('mobile', $request->mobile)->first();
-            $code = RxoRedis::where('key', $request->mobile)->first();
+            $code = Redis::where('key', $request->mobile)->first();
 //            if ($code['created_at'] > date() + 1) {
 //                $code->delete();
 //                $response = ["password" => ["کد وارد شده اشتباه است"]];

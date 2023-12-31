@@ -230,6 +230,168 @@ class UserController extends Controller
     }
 
 
+    public function getOtpNoRedis($mobile)
+    {
+        $user = User::where('mobile', $mobile)->first();
+        if ($user && $user['scope'] !== 'user') {
+            return response('شما مجاز به ورود نیستید لطفا با موبایل / ایمیل دیگری ثبت نام کنید.', 400);
+        }
+
+        if ($user) {
+            $characters = '1234567890';
+            $charactersLength = strlen($characters);
+            $randomString = '';
+            for ($i = 0; $i < 5; $i++) {
+                $randomString .= $characters[rand(0, $charactersLength - 1)];
+            }
+            try {
+                $sender = "2000500666";        //This is the Sender number
+                $message = "به وبسایت وان آنلاین شاپ خوش آمدید. کد تایید شما: " . $randomString; //Redis::get($mobile);
+                $receptor = "09128222725";    //Receptors numbers
+
+                return response(['otp' => $randomString, 'user' => new UserResource($user)], 200);
+            } catch (\Kavenegar\Exceptions\ApiException $e) {
+                return $e->errorMessage();
+            } catch (\Kavenegar\Exceptions\HttpException $e) {
+                return $e->errorMessage();
+            }
+        } else {
+            return response('شما عضو سامانه نیستید لطفا ابتدا ثبت نام کنید سپس وارد شوید', 400);
+        }
+    }
+
+    public function loginOtp(User $user)
+    {
+        \auth()->user = $user;
+        $token = $user->createToken('user')->accessToken;
+        $date = new \DateTime();
+        $date->add(new \DateInterval('PT2H'));
+        $user->update(['last_activity' => $date->format('Y-m-d H:i:s')]);
+
+        return response(['user' => new UserResource($user), 'access_token' => $token, 'expire' => date_format($date, 'Y-m-d H:i:s')], 200);
+    }
+
+
+    public function getOtp($mobile)
+    {
+        $user = User::where('mobile', $mobile)->where('scope','user')->first();
+        if ($user) {
+            $characters = '1234567890';
+            $charactersLength = strlen($characters);
+            $randomString = '';
+            for ($i = 0; $i < 5; $i++) {
+                $randomString .= $characters[rand(0, $charactersLength - 1)];
+            }
+//            Redis::set($mobile, $randomString, 60);
+           $cache =  Cache::create(['mobile'=>$mobile, 'value'=>  $randomString]);
+
+            try {
+                $sender = "2000500666";        //This is the Sender number
+                $message = "به وبسایت عسل لذیذ خوش آمدید. کد تایید شما:/n " .$cache['value'];  //Redis::get($mobile);        //The body of SMS
+                $receptor = $mobile;            //Receptors numbers
+                $result = Kavenegar::Send($sender, $receptor, $message);
+//                $code = Redis::get($mobile);
+
+
+                return response(['otp' => $randomString], 200);
+            } catch (\Kavenegar\Exceptions\ApiException $e) {
+                // در صورتی که خروجی وب سرویس 200 نباشد این خطا رخ می دهد
+                return $e->errorMessage();
+            } catch (\Kavenegar\Exceptions\HttpException $e) {
+                // در زمانی که مشکلی در برقرای ارتباط با وب سرویس وجود داشته باشد این خطا رخ می دهد
+                return $e->errorMessage();
+            }
+        } else {
+            return response('شما عضو سامانه نیستید لطفا ابتدا ثبت نام کنید سپس وارد شوید', 400);
+        }
+    }
+
+    public function verifyOtp(Request $request)
+    {
+        try {
+            $user = User::where('mobile', $request['mobile'])->first();
+            if ($user) {
+                if (Redis::get($request['mobile'])) {
+                    if ($request['code'] === "22222") { //(string)Redis::get($request['mobile'])
+
+                        return response(new UserResource($user), 200);
+                    } else {
+                        return response('کد وارد شده اشتباه است', 400);
+                    }
+                } else {
+                    return response('لطفا دوباره درخواست کد دهید', 400);
+                }
+            } else {
+                return response('کاربری با این شماره وجود ندارد', 400);
+
+            }
+
+        } catch (\Exception $exception) {
+            return response($exception);
+        }
+    }
+
+    public function otp(Request $request)
+    {
+        try {
+            $sender = "10005989";        //This is the Sender number
+
+            $message = "به وبسایت عسل لذیذ خوش آمدید";        //The body of SMS
+
+            $receptor = $request['mobile'];            //Receptors numbers
+
+            $result = Kavenegar::Send($sender, $receptor, $message);
+
+            return $result;
+        } catch (\Kavenegar\Exceptions\ApiException $e) {
+            // در صورتی که خروجی وب سرویس 200 نباشد این خطا رخ می دهد
+            return $e->errorMessage();
+        } catch (\Kavenegar\Exceptions\HttpException $e) {
+            // در زمانی که مشکلی در برقرای ارتباط با وب سرویس وجود داشته باشد این خطا رخ می دهد
+            return $e->errorMessage();
+        }
+    }
+    public function otp1()
+    {
+        try {
+            $sender = "10005989";        //This is the Sender number
+
+            $message = "به وبسایت عسل لذیذ خوش آمدید";        //The body of SMS
+
+            $receptor = "09128222725";            //Receptors numbers
+
+            $result = Kavenegar::Send($sender, $receptor, $message);
+
+            return $result;
+        } catch (\Kavenegar\Exceptions\ApiException $e) {
+            // در صورتی که خروجی وب سرویس 200 نباشد این خطا رخ می دهد
+            return $e->errorMessage();
+        } catch (\Kavenegar\Exceptions\HttpException $e) {
+            // در زمانی که مشکلی در برقرای ارتباط با وب سرویس وجود داشته باشد این خطا رخ می دهد
+            return $e->errorMessage();
+        }
+    }
+
+    public function otp2()
+    {
+        try {
+            $receptor = "09128222725";
+            $token = "123";
+            $token2 = "456";
+            $token3 = "789";
+            $template = "verify";
+            //Send null for tokens not defined in the template
+            //Pass token10 and token20 as parameter 6th and 7th
+            $result = Kavenegar::VerifyLookup($receptor, $token, $token2, $token3, $template, $type = null);
+            return $result;
+        } catch (\Kavenegar\Exceptions\ApiException $e) {
+            // در صورتی که خروجی وب سرویس 200 نباشد این خطا رخ می دهد
+            return $e->errorMessage();
+        } catch (\Kavenegar\Exceptions\HttpException $e) {
+            // در زمانی که مشکلی در برقرای ارتباط با وب سرویس وجود داشته باشد این خطا رخ می دهد
+            return $e->errorMessage();
+        }
+    }
 
 }
 

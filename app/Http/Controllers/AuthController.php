@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Nette\Utils\Random;
 use App\Models\Redis;
-
+use Kavenegar;
 
 class AuthController extends Controller
 {
@@ -94,46 +94,37 @@ class AuthController extends Controller
     {
 //        Redis::set($request['mobile'], Random::generate(4, '0-9'));
 
-        $user = User::where('mobile', $request->mobile)->first();
+        $user = User::where('mobile', $request->mobile)->where('scope',$request['scope'])->first();
         if ($user) {
+            $characters = '1234567890';
+            $charactersLength = strlen($characters);
+            $randomString = '';
+            for ($i = 0; $i < 5; $i++) {
+                $randomString .= $characters[rand(0, $charactersLength - 1)];
+            }
+//            Redis::set($mobile, $randomString, 60);
+            $Redis =  Redis::create(['mobile'=>$request['mobile'], 'value'=>  $randomString]);
 
-            if ((($user['scope'] == 'company' && $request['scope'] == 'company') || ($user['scope'] == 'user' && $request['scope'] == 'user'))
+            try {
+                $sender = "2000500666";        //This is the Sender number
+                $message = "به وبسایت عسل لذیذ خوش آمدید. کد تایید شما:/n " .$Redis['value'];  //Redis::get($mobile);        //The body of SMS
+                $receptor = $request['mobile'];            //Receptors numbers
+                $result = Kavenegar::Send($sender, $receptor, $message);
+//                $code = Redis::get($mobile);
 
-            ) {
-                $xo = Redis::where('key', $request->mobile)->first();
-                if ($xo) {
-                    $xo->update(['value' => Random::generate(4, '0-9')]);
-                } else {
-                    $xo = Redis::create(['key' => $request['mobile'], 'value' => Random::generate(4, '0-9')]);
-                }
-                return response($xo, 200);
 
-            } else {
-
-                if ($user['scope'] === 'user' && $request['scope'] === 'company') {
-                    $response = ["message" => ['شما قبلا به عنوان کاربر ثبت نام کردید. لطفا با شماره دیگری وارد شوید']];
-                    return response($response, 422);
-                }
-                if ($user['scope'] === 'company' && $request['scope'] === 'user') {
-                    $response = ["message" => ['شما قبلا به عنوان کارفرما ثبت نام کردید. لطفا با شماره دیگری وارد شوید']];
-                    return response($response, 422);
-                }
-                if ($user['scope'] !== 'user' && $user['scope'] !== 'company') {
-                    $response = ["message" => ['کاربر مجاز نیست با شماره دیگری وارد شوید']];
-                    return response($response, 422);
-                }
-
+                return response(['otp' => $randomString], 200);
+            } catch (\Kavenegar\Exceptions\ApiException $e) {
+                // در صورتی که خروجی وب سرویس 200 نباشد این خطا رخ می دهد
+                return $e->errorMessage();
+            } catch (\Kavenegar\Exceptions\HttpException $e) {
+                // در زمانی که مشکلی در برقرای ارتباط با وب سرویس وجود داشته باشد این خطا رخ می دهد
+                return $e->errorMessage();
             }
         } else {
-            $xo = Redis::where('key', $request->mobile)->first();
-            if ($xo) {
-                $xo->update(['value' => Random::generate(4, '0-9')]);
-            } else {
-                $xo = Redis::create(['key' => $request['mobile'], 'value' => Random::generate(4, '0-9')]);
-            }
-            return response($xo, 200);
-
+            return response('شما عضو سامانه نیستید لطفا ابتدا ثبت نام کنید سپس وارد شوید', 400);
         }
+
 
 
     }
@@ -141,7 +132,7 @@ class AuthController extends Controller
     public function loginMobile(Request $request)
     {
         try {
-            $user = User::where('mobile', $request->mobile)->first();
+            $user = User::where('mobile', $request->mobile)->where('scope','user')->first();
             $code = Redis::where('key', $request->mobile)->first();
 //            if ($code['created_at'] > date() + 1) {
 //                $code->delete();
@@ -151,7 +142,7 @@ class AuthController extends Controller
 
             if ($user && $code) {
 
-                if (((($user['scope'] == 'company' && $request['scope'] == 'company') || ($user['scope'] == 'user' && $request['scope'] === 'user')) && $request['password'] == $code['value'])) {
+                if ($request['password'] == $code['value']) {
 
                     $token = $user->createToken('user')->accessToken;
                     $date = new \DateTime();
@@ -160,27 +151,10 @@ class AuthController extends Controller
                     $code->delete();
                     return response(['user' => new UserResource($user), 'access_token' => $token, 'scope' => $request['scope'], 'expire' => date_format($date, 'Y-m-d H:i:s')], 200);
                 } else {
-                    $response = ["password" => ["کد وارد شده اشتباه است"]];
+                    $response = ["message" => ["کد وارد شده اشتباه است"]];
                     return response($response, 422);
                 }
-            } else if(!$user && $code) {
 
-                if (request('password') == $code['value']) {
-                    $date = new \DateTime();
-                    $date->add(new \DateInterval('PT2H'));
-
-                    $user = User::create(['mobile' => $request->mobile, 'scope' => $request['scope'], 'last_activity' => $date->format('Y-m-d H:i:s')]);
-                    if($user['scope'] === 'company'){
-                        Company::create(['user_id' => $user->id]);
-                    }
-                    $token = $user->createToken('user')->accessToken;
-                    $code->delete();
-                    return response(['user' => new UserResource($user), 'access_token' => $token, 'scope' => $request['scope'], 'expire' => date_format($date, 'Y-m-d H:i:s')], 200);
-
-                } else {
-                    $response = ["password" => ["کد وارد شده اشتباه است"]];
-                    return response($response, 422);
-                }
             }
         } catch (\Exception $exception) {
             return response($exception);

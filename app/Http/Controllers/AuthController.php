@@ -99,7 +99,7 @@ class AuthController extends Controller
             $characters = '1234567890';
             $charactersLength = strlen($characters);
             $randomString = '';
-            for ($i = 0; $i < 5; $i++) {
+            for ($i = 0; $i < 4; $i++) {
                 $randomString .= $characters[rand(0, $charactersLength - 1)];
             }
 //            Redis::set($mobile, $randomString, 60);
@@ -107,7 +107,7 @@ class AuthController extends Controller
 
             try {
                 $sender = "";        //This is the Sender number
-                $message = "به وبسایت عسل لذیذ خوش آمدید. کد تایید شما:/n " .$Redis['value'];  //Redis::get($mobile);        //The body of SMS
+                $message = "به وبسایت عسل لذیذ خوش آمدید. کد تایید شما: " .$Redis['value'];  //Redis::get($mobile);        //The body of SMS
                 $receptor = $request['mobile'];            //Receptors numbers
                 $result = Kavenegar::Send($sender, $receptor, $message);
 //                $code = Redis::get($mobile);

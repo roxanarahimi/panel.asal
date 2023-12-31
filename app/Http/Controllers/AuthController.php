@@ -109,7 +109,7 @@ class AuthController extends Controller
                 $sender = "";        //This is the Sender number
                 $message = "به وبسایت عسل لذیذ خوش آمدید. کد تایید شما: " .$Redis['value'];  //Redis::get($mobile);        //The body of SMS
                 $receptor = $request['mobile'];            //Receptors numbers
-                $result = Kavenegar::Send($sender, $receptor, $message);
+//      ***     ***     $result = Kavenegar::Send($sender, $receptor, $message);
 //                $code = Redis::get($mobile);
 
 
@@ -142,6 +142,7 @@ class AuthController extends Controller
 
             if ($user && $code) {
 
+                return response([$request['password'] , $code['value']]);
                 if ($request['password'] == $code['value']) {
 
                     $token = $user->createToken('user')->accessToken;

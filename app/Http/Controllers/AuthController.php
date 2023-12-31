@@ -142,7 +142,6 @@ class AuthController extends Controller
 
             if ($user && $code) {
 
-                return response([$request['password'] , $code['value']],500);
                 if ($request['password'] == $code['value']) {
 
                     $token = $user->createToken('user')->accessToken;

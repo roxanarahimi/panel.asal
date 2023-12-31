@@ -122,7 +122,7 @@ class AuthController extends Controller
                 return $e->errorMessage();
             }
         } else {
-            return response(['message'=>'شما عضو سامانه نیستید لطفا ابتدا ثبت نام کنید سپس وارد شوید'], 400);
+            return response(['message'=>['شما عضو سامانه نیستید لطفا ابتدا ثبت نام کنید سپس وارد شوید']], 400);
         }
 
 

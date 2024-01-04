@@ -166,41 +166,43 @@ class AuthController extends Controller
     public function register(Request $request)
     {
 
-        $validator = Validator::make($request->all('name', 'email', 'password'),
+        $validator = Validator::make($request->all('name', 'email',),
             [
-                'name' => 'required|max:255',
-                'email' => 'required|email|max:255|unique:users',
-                'password' => 'required|min:3',
-//            'password' => 'required|string|min:3|confirmed',
+                'email' => 'email|unique:users',
+                'mobile' => 'unique:users',
             ],
             [
-                'name.required' => 'لطفا نام را وارد کنید',
-                'name.max' => 'نام بیش از حد طولانی است',
-                'email.required' => 'لطفا ایمیل را وارد کنید',
+                'email.email' => 'این ایمیل نادرست است',
                 'email.unique' => 'این ایمیل قبلا ثبت شده',
-                'password.required' => 'لطفا کلمه عبور را وارد کنید',
-                'password.min' => 'لطفا حد اقل 3 کاراکتر وارد کنید',
+                'mobile.unique' => 'این شماره موبایل قبلا ثبت شده',
+
             ]
         );
         if ($validator->fails()) {
             return response()->json($validator->messages(), 422);
         }
-        $user = User::create([
-            'name' => $request['name'],
-            'email' => $request['email'],
-            'password' => Hash::make($request['password']),
-        ]);
+        $user = User::create($request->except('img1','img2'));
         //event(new Registered($client));
 
         $accessToken = $user->createToken('authToken')->accessToken;
-        return response(['user' => new UserResource($user), 'access_token' => $accessToken], 201);
+        if ($request['img1']){
+            $name = 'user_' . $user['id'] . '_' . uniqid() . '.jpg';
+            $image_path = (new ImageController)->uploadImage($request['image'], $name, 'images/users/');
+            $user->update(['image1' => '/' . $image_path]);
+            (new ImageController)->resizeImage('images/users/',$name);
 
-//        $request['password']=Hash::make($request['password']);
-//        $request['remember_token'] = Str::random(10);
-//        $client = User::create($request->toArray());
-//        $token = $client->createToken('Laravel Password Grant user')->accessToken;
-//        $response = ['access_token' => $token];
-//        return response($response, 200);
+        }
+        if ($request['img2']){
+            $name2 = 'user_' . $user['id'] . '_' . uniqid() . '.jpg';
+            $image_path = (new ImageController)->uploadImage($request['image'], $name2, 'images/users/');
+            $user->update(['image2' => '/' . $image_path]);
+            (new ImageController)->resizeImage('images/users/',$name2);
+
+        }
+
+        return response(['user' => new UserResource($user)], 201);
+
+
     }
 
     public function logout(User $user)

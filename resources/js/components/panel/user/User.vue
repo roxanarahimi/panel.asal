@@ -19,9 +19,7 @@
                             <i class = "bi bi-person-circle text-muted " style = "font-size: 60px"></i>
 
                             <p class = "h5 card-title fw-bold mt-2 mb-2">{{data.name }}</p>
-                            <p class = "text-muted d-block my-0">{{ data.gender }}</p>
                             <p class = "text-muted d-block my-0">{{ data.mobile }}</p>
-                            <p class = "text-muted d-block my-0">{{ data.email }}</p>
                             <router-link :to = "'/panel/edit/user/'+data.id" class = "btn btn-sm btn-primary mt-2">
                                 ویرایش
                             </router-link>

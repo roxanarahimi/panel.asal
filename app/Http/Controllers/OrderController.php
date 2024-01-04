@@ -61,16 +61,18 @@ class OrderController extends Controller
 
             $item = OrderItem::where('product_id', $request['product_id'])->where('order_id', $cart['id'])->first();
             if ($item) {
-                $q = $item['quantity'] + 1;
+                $q = $item['quantity'] + $request['quantity'];
                 $item->update(['quantity' => $q]);
             } else {
-                $item = OrderItem::create($request->all(['product_id', 'product_size_id', 'quantity', 'price', 'off']));
+                $item = OrderItem::create($request->all(['product_id', 'product_size_id', 'quantity', 'price']));
                 $item->update(['order_id' => $cart['id']]);
             }
 
-            $total = 15000;
+//            $total = 15000;
+            $total = 0;
             foreach ($cart->items as $item) {
-                $total += $item['price'] * (1 - $item['off'] / 100) * $item['quantity'];
+//                $total += $item['price'] * (1 - $item['off'] / 100) * $item['quantity'];
+                $total += $item['price'] * $item['quantity'];
             }
             $cart->update(['amount' => $total]);
 

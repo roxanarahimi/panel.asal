@@ -16,7 +16,7 @@ class OrderResource extends JsonResource
     {
         switch ($this->status) {
 
-            case 'progress':
+            case 'in-progress':
                 $status = 'در حال پردازش';
                 $percent = '40';
                 $color = 'bg-warning';

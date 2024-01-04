@@ -110,7 +110,7 @@ class OrderController extends Controller
     {
 //        return $request;
         try {
-            $order->update($request->all(['status', 'payment', 'post_track_id']));
+            $order->update($request->all(['status', 'payment','payed']));
 
             return response(new OrderResource($order), 200);
 

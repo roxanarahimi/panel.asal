@@ -54,14 +54,25 @@ class OrderResource extends JsonResource
 
         }
         switch ($this->payment) {
-            case 'not payed':
-                $payment = 'پرداخت نشده';
+            case 'cash':
+                $payment = 'نقدی';
                 break;
-            case 'payed':
-                $payment = 'پرداخت شد';
+            case 'check':
+                $payment = 'چک';
                 break;
             default:
-                $payment = '?';
+                $payment = '';
+                break;
+        }
+        switch ($this->payed) {
+            case '0':
+                $payed = 'پرداخت نشده';
+                break;
+            case '1':
+                $payed = 'پرداخت شد';
+                break;
+            default:
+                $payed = '';
                 break;
         }
 
@@ -119,6 +130,7 @@ class OrderResource extends JsonResource
             "amount" => $this->amount,
             "address" => $this->address,
             "payment" => $payment,
+            "payed" => $payed,
             "status" => $status,
             "percent" => $percent,
 

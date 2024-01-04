@@ -19,7 +19,7 @@ class UserController extends Controller
     {
         try {
             $perPage = $request['perPage'];
-            $data = User::latest()->where('scope', 'user')->where('name', 'Like', '%' . $request['search'] . '%')->paginate($perPage);
+            $data = User::latest()->where('scope', 'user')->where('mobile', 'Like', '%' . $request['search'] . '%')->paginate($perPage);
             $pages_count = ceil($data->total() / $perPage);
             $labels = [];
             for ($i = 1; $i <= $pages_count; $i++) {
@@ -161,6 +161,16 @@ class UserController extends Controller
             return response($exception);
         }
 
+    }
+
+    public function activeToggle(User $user)
+    {
+        try {
+            $user->update(['active' => !$user['active']]);
+            return response(new UserResource($user), 200);
+        } catch (\Exception $exception) {
+            return response($exception);
+        }
     }
 
     public function updateProfile(Request $request)

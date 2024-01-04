@@ -34,7 +34,7 @@
                     </td>
 <!--                    <td class = "d-none d-xl-table-cell text_cell">{{ // data.text }}</td>-->
                     <td class = "d-none d-md-table-cell" >
-<!--                        <img v-if = "data.product.thumb" :src = "data.product.thumb" width = "80" alt = "">-->
+<!--                        <images v-if = "data.product.thumb" :src = "data.product.thumb" width = "80" alt = "">-->
                     </td>
 <!--                    <td class = "d-none d-xl-table-cell text_cell">-->
 <!--&lt;!&ndash;                        {{ data.product.title }}&ndash;&gt;-->

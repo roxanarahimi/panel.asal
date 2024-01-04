@@ -13,7 +13,7 @@
             <div class = "row mt-3">
                 <div class = "col-md-6 col-lg-4 col-xxl-3 mb-3 h-100">
                     <div class = "card">
-                        <!-- <img  class="card-img-top" alt="..."> -->
+                        <!-- <images  class="card-images-top" alt="..."> -->
                         <div class = "card-body text-center pt-3">
                             <!-- <i class="bi bi-person-circle"></i> -->
                             <i class = "bi bi-person-circle text-muted " style = "font-size: 60px"></i>
@@ -31,62 +31,33 @@
 
                 <div class = "col-xxl-9 mb-3 row ">
                     <div class = "col-12 mb-3">
-                        <div v-if = "data.addresses" class = "card">
+                        <div class = "card">
                             <div class = "card-body">
                                 <table class = "table">
                                     <thead>
                                     <tr>
-                                        <th class = "d-none d-md-table-cell" scope = "col"></th>
-                                        <th scope = "col">عنوان</th>
-                                        <th scope = "col">استان</th>
-                                        <th scope = "col">شهر</th>
-                                        <th scope = "col">کد پستی</th>
-                                        <th scope = "col">آدرس</th>
-                                        <th class = "d-none d-md-table-cell" scope = "col">تاریخ ثبت</th>
-                                        <th scope = "col"></th>
+                                        <th>استان</th>
+                                        <th>شهر</th>
+                                        <th>کد پستی</th>
+                                        <th>تلفن</th>
+                                        <th>آدرس</th>
+                                        <th></th>
                                     </tr>
                                     </thead>
                                     <tbody>
 
-                                    <tr :id = "'row_'+data.id" v-for = "(item, index) in data.addresses" :key = "data.id" :data-index = "index">
-                                        <td class = "d-none d-md-table-cell" scope = "row">{{ index + 1 }}</td>
-                                        <td>{{ item.title }}</td>
-                                        <td>{{ item.state }}</td>
-                                        <td>{{ item.city }}</td>
-                                        <td>{{ item.postal_code }}</td>
-                                        <td>{{ item.address }}</td>
-
-                                        <td class = "d-none d-md-table-cell date_cell">{{ item.created_at }}</td>
-
-                                        <td>
-                                            <span role = "button" data-bs-toggle = "dropdown" aria-expanded = "false"><i class = "bi bi-three-dots-vertical"></i></span>
-                                            <ul class = "dropdown-menu" aria-labelledby = "navbarScrollingDropdown">
-                                                <!--                                            <li>-->
-                                                <!--                                                <a class = "dropdown-item" style = "text-align: right !important" href = "#">مشاهده</a>-->
-                                                <!--                                            </li>-->
-                                                <!--                                             <li>-->
-                                                <!--                                                <a class = "dropdown-item" style = "text-align: right !important" href = "#">ویرایش</a>-->
-                                                <!--                                            </li>-->
-                                                <li>
-                                                    <router-link :to = "'/panel/order/'+item.id" class = "dropdown-item" style = "text-align: right !important">
-                                                        مشاهده
-                                                    </router-link>
-                                                    <router-link :to = "'/panel/edit/order/'+item.id" class = "dropdown-item" style = "text-align: right !important">
-                                                        ویرایش
-                                                    </router-link>
-                                                    <a class = "dropdown-item" @click = "showDeleteModal(item.id)" style = "text-align: right !important" data-bs-toggle = "modal" data-bs-target = "#exampleModal">حذف</a>
-                                                </li>
-                                                <!--                                <li><hr class="dropdown-divider"></li>-->
-                                                <!--                                <li><a class="dropdown-item" href="#">Something else here</a></li>-->
-                                            </ul>
-                                        </td>
+                                    <tr>
+                                        <td></td>
+                                        <td>{{ data.city_id }}</td>
+                                        <td>{{ data.postal_code }}</td>
+                                        <td>{{ data.phone }}</td>
+                                        <td>{{ data.address }}</td>
                                     </tr>
 
                                     </tbody>
                                 </table>
                             </div>
                         </div>
-                        <div v-else><p class = "fw-bold">هیچ آدرسی موجود نیست</p></div>
                     </div>
                 </div>
 

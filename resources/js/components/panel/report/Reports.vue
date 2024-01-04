@@ -28,7 +28,7 @@
                                 <tr :id = "'row_'+data.id" v-for = "(data, index) in allData" :key = "data.id" :data-index = "index">
                                     <td scope = "row">{{ index + 1 }}</td>
                                     <td class = "d-none d-md-table-cell" style = "width: 100px">
-                                        <!--                                        <img v-if = "blog.image" :src = "blog.thumb_url" width = "80" alt = "">-->
+                                        <!--                                        <images v-if = "blog.image" :src = "blog.thumb_url" width = "80" alt = "">-->
                                     </td>
                                     <td>
                                         <router-link :to = "'/panel/client/'+data.id">{{ data.title }}</router-link>

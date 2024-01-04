@@ -6,6 +6,6 @@ describe('Cropper', () => {
   it('should throw error when the first argument is not an element', () => {
     expect(() => {
       new Cropper(document);
-    }).to.throw('The first argument is required and must be an <img> or <canvas> element.');
+    }).to.throw('The first argument is required and must be an <images> or <canvas> element.');
   });
 });

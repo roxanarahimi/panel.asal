@@ -38,7 +38,7 @@
                 <!--                                <template #item="{element}">-->
                 <!--                                    <div class="text-center d-block mb-2" style="width: 140px">-->
                 <!--                                        <div class="border rounded p-1 " style="cursor: pointer">-->
-                <!--                                            <img class="img-fluid" :src="element">-->
+                <!--                                            <images class="images-fluid" :src="element">-->
                 <!--                                        </div>-->
                 <!--                                        <input type="hidden" name="order" :value="element">-->
                 <!--                                    </div>-->
@@ -53,7 +53,7 @@
                 <!--                            &lt;!&ndash;                                        <div class="row">&ndash;&gt;-->
                 <!--                            &lt;!&ndash;                                            <div v-for="(image, index) in data.images" :key="index"  v-if="data.images" class="col-4 d-flex mb-3 p-2">&ndash;&gt;-->
                 <!--                            &lt;!&ndash;                                                <div class="border rounded p-1">&ndash;&gt;-->
-                <!--                            &lt;!&ndash;                                                    <img class="img-fluid" :src="image">&ndash;&gt;-->
+                <!--                            &lt;!&ndash;                                                    <images class="images-fluid" :src="image">&ndash;&gt;-->
                 <!--                            &lt;!&ndash;                                                </div>&ndash;&gt;-->
                 <!--                            &lt;!&ndash;                                            </div>&ndash;&gt;-->
                 <!--                            &lt;!&ndash;                                        </div>&ndash;&gt;-->

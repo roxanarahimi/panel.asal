@@ -5,12 +5,12 @@
                 <thead>
                 <tr>
                     <th scope = "col"></th>
-                    <th class = "d-none d-md-table-cell" style = "width: 100px" scope = "col">آواتار
-                    </th>
+<!--                    <th class = "d-none d-md-table-cell" style = "width: 100px" scope = "col">آواتار-->
+<!--                    </th>-->
+                    <th scope = "col">نوع کاربر</th>
                     <th scope = "col">نام</th>
-                    <th scope = "col">ایمیل</th>
                     <th scope = "col">موبایل</th>
-                    <th scope = "col">جنسیت</th>
+                    <th scope = "col">اوپراتور</th>
                     <th class = "d-none d-md-table-cell" scope = "col">تاریخ ثبت</th>
                     <th scope = "col"></th>
                     <th scope = "col"></th>
@@ -20,17 +20,22 @@
 
                 <tr :id = "'row_'+data.id" v-for = "(data, index) in allData" :key = "data.id" :data-index = "index">
                     <td>{{ index + 1 }}</td>
-                    <td class = "d-none d-md-table-cell" style = "width: 100px">
-                        <!--                                        <img v-if = "blog.image" :src = "blog.thumb_url" width = "80" alt = "">-->
-                    </td>
+<!--                    <td class = "d-none d-md-table-cell" style = "width: 100px">-->
+<!--                        &lt;!&ndash;                                        <images v-if = "blog.image" :src = "blog.thumb_url" width = "80" alt = "">&ndash;&gt;-->
+<!--                    </td>-->
+                    <td class = "">{{ data.type }}</td>
+
                     <td>
                         <router-link :to = "'/panel/user/'+data.id">{{ data.name }}</router-link>
                     </td>
 
-                    <td class = "">{{ data.email }}</td>
                     <td class = "">{{ data.mobile }}</td>
-                    <td class = "">{{ data.gender }}</td>
+                    <td class = "">{{ data.operator }}</td>
                     <td class = "d-none d-md-table-cell date_cell">{{ data.created_at }}</td>
+                    <td class="active_cell">
+                        <span @click="activeToggle(model,data.id)" v-if="data.active" class="badge bg-success text-light"><i class="bi bi-eye-fill"></i></span>
+                        <span @click="activeToggle(model,data.id)" v-else class="badge bg-danger text-light"><i class="bi bi-eye-slash-fill"></i></span>
+                    </td>
 <!--                    <td class="active_cell">-->
 <!--                        <span @click="activeToggle(model,data.id)" v-if="data.active" class="badge bg-success text-light"><i class="bi bi-eye-fill"></i></span>-->
 <!--                        <span @click="activeToggle(model,data.id)" v-else class="badge bg-danger text-light"><i class="bi bi-eye-slash-fill"></i></span>-->
@@ -88,7 +93,12 @@ export default {
         //
         // };
 
-        return {showDeleteModal, deleteInfo,
+        const activeToggle = async (model,id) => {
+            await AllDataContainer.setup().activeToggle(model,id);
+            props.loadData(props.page);
+
+        };
+        return {showDeleteModal, deleteInfo, activeToggle
             // activeToggle
         }
     }

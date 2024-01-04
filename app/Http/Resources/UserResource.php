@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+
 class UserResource extends JsonResource
 {
     /**
@@ -30,6 +31,24 @@ class UserResource extends JsonResource
                 break;
             }
         }
+        switch ($this->type) {
+            case 'real':
+            {
+                $type = 'حقیقی';
+                break;
+            }
+            case 'legal':
+            {
+                $type = 'حقوقی';
+                break;
+            }
+            default:
+            {
+                $type = '';
+                break;
+            }
+
+        }
 
         $allOrders = [];
         foreach ($this->allOrders as $item) {
@@ -40,12 +59,11 @@ class UserResource extends JsonResource
             array_push($orders, new OrderResource($item));
         }
 
-        if ($this->cart)
-        {
-            if ($this->cart->items){
+        if ($this->cart) {
+            if ($this->cart->items) {
                 $count = count($this->cart->items);
 
-            }else{
+            } else {
                 $count = 0;
             }
             $cart = [
@@ -60,7 +78,7 @@ class UserResource extends JsonResource
                 "created_at" => $this->cart->created_at,
                 "updated_at" => $this->cart->created_at,
             ];
-        }else{
+        } else {
             $cart = null;
             $count = 0;
 
@@ -71,19 +89,29 @@ class UserResource extends JsonResource
             "id" => (string)$this->id,
             "name" => $this->name,
             "email" => $this->email,
+            "type" => $type,
+            "national_code" => $this->national_code,
+            "registration_number" => $this->registration_number,
+            "operator" => $this->operator,
+            "image1" => $this->image1,
+            "image2" => $this->image2,
             "last_activity_at" => $this->last_activity,
 
-             "mobile" => $this->mobile,
+            "mobile" => $this->mobile,
+            "phone" => $this->phone,
             "gender" => $gender,
             "avatar" => $this->avatar,
-            "cart" => $cart ,
+            "cart" => $cart,
             "cart-items-count" => $count,
 
             "scope" => $this->scope,
             "orders" => $orders,
             "allOrders" => $allOrders,
 //            "addresses" =>  UserAddressResource::collection($this->addresses),
-            "addresses" =>  $this->addresses,
+            "address" => $this->address,
+            "city_id" => $this->city_id,
+            "active" => $this->active,
+
 
 //            "expires_at" => $exp,
 

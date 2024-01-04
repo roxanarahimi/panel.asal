@@ -58,7 +58,7 @@ export default {
       img.alt = alt;
 
       /**
-       * Override img element styles
+       * Override images element styles
        * Add `display:block` to avoid margin top issue
        * Add `height:auto` to override `height` attribute on IE8
        * (Occur only when margin-top <= -height)

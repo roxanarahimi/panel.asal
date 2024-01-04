@@ -104,7 +104,7 @@
                             let img = new Image;
                             img.onload = function () {
 
-                                // console.log("The width of the image is " + img.width + "px.");
+                                // console.log("The width of the image is " + images.width + "px.");
                                 if (img.width < 400) {
                                     selectedFile.value = null;
                                     document.getElementById("preview_" + _props.name).setAttribute('src', "");

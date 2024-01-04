@@ -80,6 +80,8 @@ Route::controller(App\Http\Controllers\UserController::class)->group(function ()
         Route::post('/admin', 'store');
         Route::post('/admin/{admin}', 'update');
         Route::get('/delete/admin/{admin}', 'destroy');
+        Route::get('/active/user/{user}', 'activeToggle');
+
     });
 });
 Route::controller(App\Http\Controllers\UserAddressController::class)->group(function () {

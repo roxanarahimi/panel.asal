@@ -1636,7 +1636,7 @@ var preview = {
       img.src = url;
       img.alt = alt;
       /**
-       * Override img element styles
+       * Override images element styles
        * Add `display:block` to avoid margin top issue
        * Add `height:auto` to override `height` attribute on IE8
        * (Occur only when margin-top <= -height)
@@ -3222,7 +3222,7 @@ var Cropper = /*#__PURE__*/function () {
     _classCallCheck(this, Cropper);
 
     if (!element || !REGEXP_TAG_NAME.test(element.tagName)) {
-      throw new Error('The first argument is required and must be an <img> or <canvas> element.');
+      throw new Error('The first argument is required and must be an <images> or <canvas> element.');
     }
 
     this.element = element;
@@ -3252,7 +3252,7 @@ var Cropper = /*#__PURE__*/function () {
       element[NAMESPACE] = this;
 
       if (tagName === 'img') {
-        this.isImg = true; // e.g.: "img/picture.jpg"
+        this.isImg = true; // e.g.: "images/picture.jpg"
 
         url = element.getAttribute('src') || '';
         this.originalUrl = url; // Stop when it's a blank image

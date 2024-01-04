@@ -48,7 +48,7 @@ class Cropper {
    */
   constructor(element, options = {}) {
     if (!element || !REGEXP_TAG_NAME.test(element.tagName)) {
-      throw new Error('The first argument is required and must be an <img> or <canvas> element.');
+      throw new Error('The first argument is required and must be an <images> or <canvas> element.');
     }
 
     this.element = element;
@@ -78,7 +78,7 @@ class Cropper {
     if (tagName === 'img') {
       this.isImg = true;
 
-      // e.g.: "img/picture.jpg"
+      // e.g.: "images/picture.jpg"
       url = element.getAttribute('src') || '';
       this.originalUrl = url;
 

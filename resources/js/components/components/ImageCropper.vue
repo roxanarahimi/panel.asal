@@ -18,7 +18,7 @@
       <img :id="'preview_'+ name" class="image-preview" style="width: 100%; height:auto" alt="">
     </div>
     <!--        <figure v-else class = "content_image image-preview_wrapper p-1 text-center m-2" style = "max-width: 265px;height:180px">-->
-    <!--            <img v-show = "selectedFile" :id = "'preview_'+ name" class = "image-preview img-fluid" alt = "">-->
+    <!--            <images v-show = "selectedFile" :id = "'preview_'+ name" class = "image-preview images-fluid" alt = "">-->
     <!--            <figcaption v-show = "selectedFile" class = "align-bottom">-->
     <!--                <input :id = "'Image_'+name+'_caption'" type = "text" class = "form-control mt-2" placeholder = "کپشن را وارد کنید (اختیاری)">-->
     <!--            </figcaption>-->
@@ -119,7 +119,7 @@ export default {
         reader.onload = function (files) {
           let img = new Image;
           img.onload = function () {
-            // console.log("The width of the image is " + img.width + "px.");
+            // console.log("The width of the image is " + images.width + "px.");
 
             if (img.width < 200) {
               selectedFile.value = null;

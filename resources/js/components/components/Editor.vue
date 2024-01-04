@@ -258,8 +258,8 @@ export default {
                         if (document.getElementById('Image_inner_max_width').value !== '') {
                             style = 'style="max-width:' + document.getElementById('Image_inner_max_width').value.toString() + 'px"';
                         }
-                        // html = '<figure ><img ' + style + ' src="' + document.getElementById('Image_inner_code').getAttribute('value') + '" alt="' + document.getElementById('Image_inner_alt').value + '">' +
-                        html = '<figure ><img ' + style + ' src="' + document.getElementById('Image_inner_path').value + '" alt="' + document.getElementById('Image_inner_alt').value + '">' +
+                        // html = '<figure ><images ' + style + ' src="' + document.getElementById('Image_inner_code').getAttribute('value') + '" alt="' + document.getElementById('Image_inner_alt').value + '">' +
+                        html = '<figure ><images ' + style + ' src="' + document.getElementById('Image_inner_path').value + '" alt="' + document.getElementById('Image_inner_alt').value + '">' +
                             '<figcaption>' + document.getElementById('Image_inner_caption').value + '</figcaption>' +
                             '</figure>';
                         document.execCommand('insertHTML', false, '<br>');
@@ -291,7 +291,7 @@ export default {
                 }
             }
 
-            let images = document.querySelectorAll('#editor > div > figure > img');
+            let images = document.querySelectorAll('#editor > div > figure > images');
             images.forEach((image) => {
                 document.querySelectorAll('figure').forEach((fig) => {
                     fig.removeAttribute('id');
@@ -397,7 +397,7 @@ export default {
                     //  e.preventDefault();
                     console.log('1', saved); //#text ==== figure
                     console.log('1', saved[0].nodeName); //#text ==== figure
-                    console.log('2', saved[0].firstChild);      //    img
+                    console.log('2', saved[0].firstChild);      //    images
                     console.log('3', saved[0].firstChild?.tagName);
                     console.log('4', saved[0].parentElement.nextSibling?.tagName);
                     console.log('5', saved[0].parentElement.nextSibling?.firstChild?.tagName);
@@ -440,7 +440,7 @@ export default {
                 if (e.key === 'Delete') {
                     e.preventDefault();
                     // console.log('1', saved[0].nodeName); //#text ==== figure
-                    // console.log('2', saved[0].firstChild);      //    img
+                    // console.log('2', saved[0].firstChild);      //    images
                     // console.log('3', saved[0].firstChild?.tagName);
                     // console.log('4', saved[0].parentElement.nextSibling?.tagName);
                     // console.log('5', saved[0].parentElement.nextSibling?.firstChild?.tagName);
@@ -528,7 +528,7 @@ export default {
             this.optionsFlag === 0 ? this.optionsToggle(true) : document.getElementById('add_content').classList.add('d-none');
             if (e.key === 'Backspace') {
                 // console.log('1', saved[0].nodeName); //#text ==== figure
-                // console.log('2', saved[0].firstChild);      //    img
+                // console.log('2', saved[0].firstChild);      //    images
                 // console.log('3', saved[0].firstChild?.tagName);
                 // console.log('4', saved[0].parentElement.nextSibling?.tagName);
                 // console.log('5', saved[0].parentElement.nextSibling?.firstChild?.tagName);
@@ -603,7 +603,7 @@ export default {
                     break;
                 }
                 case 'IMG' : {
-                    txt += '<div><figure><img src="' + children[i].getAttribute('src') + '" alt="' + children[i].getAttribute('alt') + '"/><figcaption></figcaption></figure></div>';
+                    txt += '<div><figure><images src="' + children[i].getAttribute('src') + '" alt="' + children[i].getAttribute('alt') + '"/><figcaption></figcaption></figure></div>';
                     break;
                 }
                 case 'BR' : {
@@ -673,7 +673,7 @@ export default {
         },
 
         listenImgs() {
-            let images = document.querySelectorAll('#editor > div > figure > img');
+            let images = document.querySelectorAll('#editor > div > figure > images');
             images.forEach((image) => {
                 document.querySelectorAll('figure').forEach((fig) => {
                     fig.removeAttribute('id');
@@ -709,7 +709,7 @@ export default {
             let src = document.querySelector('#img_edit_src').value;
             let newAlt = document.querySelector('#img_edit_alt').value ? 'alt="' + document.querySelector('#img_edit_alt').value + '"' : '';
             let newStyle = parseInt(document.querySelector('#img_edit_max_width').value) > 0 ? 'style="max-width:' + document.querySelector('#img_edit_max_width').value + 'px"' : '';
-            document.getElementById('editingImg').innerHTML = '<img alt="" src="' + src + '" ' + newStyle + ' ' + newAlt + '>' +
+            document.getElementById('editingImg').innerHTML = '<images alt="" src="' + src + '" ' + newStyle + ' ' + newAlt + '>' +
                 '<figcaption>' + document.querySelector('#img_edit_caption').value + '</figcaption>';
             document.querySelectorAll('figure').forEach((fig) => {
                 fig.removeAttribute('id');
@@ -761,10 +761,10 @@ export default {
                                         switch (t[j].tagName) {
                                             case 'IMG': {
                                                 if (t[j].nextSibling && t[j].nextSibling.tagName === 'FIGCAPTION') {
-                                                    text += '<figure><img src="' + t[j].getAttribute('src') + '" alt="' + t[j].getAttribute('alt') + '"/>' +
+                                                    text += '<figure><images src="' + t[j].getAttribute('src') + '" alt="' + t[j].getAttribute('alt') + '"/>' +
                                                         '<figcaption>' + t[j].nextSibling.innerHTML + '</figcaption></figure>';
                                                 } else {
-                                                    text += '<figure><img src="' + t[j].getAttribute('src') + '" alt="' + t[j].getAttribute('alt') + '"/>' +
+                                                    text += '<figure><images src="' + t[j].getAttribute('src') + '" alt="' + t[j].getAttribute('alt') + '"/>' +
                                                         '<figcaption></figcaption></figure>';
                                                 }
                                                 break;
@@ -800,7 +800,7 @@ export default {
                     } else if (tag === 'UL') {
                         text += '<ul>' + children[i].firstChild.innerHTML + '</ul>';
                     } else if (tag === 'IMG') {
-                        txt += '<figure><img src="' + children[i].getAttribute('src') + '" alt="' + children[i].getAttribute('alt') + '"/><figcaption></figcaption></figure>';
+                        txt += '<figure><images src="' + children[i].getAttribute('src') + '" alt="' + children[i].getAttribute('alt') + '"/><figcaption></figcaption></figure>';
 
                     } else if (tag === 'SPAN') {
                         text += '<p>' + children[i].firstChild.innerHTML + '</p>';
@@ -822,7 +822,7 @@ export default {
                 } else if (children[i].tagName === 'SPAN') {
                     text += '<p>' + children[i].firstChild.innerHTML + '</p>';
                 } else if (children[i].tagName === 'IMG') {
-                    txt += '<figure><img src="' + children[i].getAttribute('src') + '" alt="' + children[i].getAttribute('alt') + '"/><figcaption></figcaption></figure>';
+                    txt += '<figure><images src="' + children[i].getAttribute('src') + '" alt="' + children[i].getAttribute('alt') + '"/><figcaption></figcaption></figure>';
 
                 }
 

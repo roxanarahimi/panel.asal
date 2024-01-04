@@ -19510,7 +19510,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           var img = new Image();
 
           img.onload = function () {
-            // console.log("The width of the image is " + img.width + "px.");
+            // console.log("The width of the image is " + images.width + "px.");
             if (img.width < 200) {
               selectedFile.value = null;
               document.getElementById("preview_" + _props.name).setAttribute('src', "");
@@ -20891,7 +20891,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     alt: ""
   }, null, 8
   /* PROPS */
-  , _hoisted_8)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("        <figure v-else class = \"content_image image-preview_wrapper p-1 text-center m-2\" style = \"max-width: 265px;height:180px\">"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("            <img v-show = \"selectedFile\" :id = \"'preview_'+ name\" class = \"image-preview img-fluid\" alt = \"\">"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("            <figcaption v-show = \"selectedFile\" class = \"align-bottom\">"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("                <input :id = \"'Image_'+name+'_caption'\" type = \"text\" class = \"form-control mt-2\" placeholder = \"کپشن را وارد کنید (اختیاری)\">"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("            </figcaption>"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("        </figure>"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  , _hoisted_8)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("        <figure v-else class = \"content_image image-preview_wrapper p-1 text-center m-2\" style = \"max-width: 265px;height:180px\">"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("            <images v-show = \"selectedFile\" :id = \"'preview_'+ name\" class = \"image-preview images-fluid\" alt = \"\">"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("            <figcaption v-show = \"selectedFile\" class = \"align-bottom\">"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("                <input :id = \"'Image_'+name+'_caption'\" type = \"text\" class = \"form-control mt-2\" placeholder = \"کپشن را وارد کنید (اختیاری)\">"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("            </figcaption>"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("        </figure>"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     onClick: _cache[0] || (_cache[0] = function ($event) {
       return $setup.imageInput.click();
     }),
@@ -23078,7 +23078,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.image-container {\r\n  width: inherit;\r\n  height: inherit;\n}\r\n\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.image-container {\n  width: inherit;\n  height: inherit;\n}\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

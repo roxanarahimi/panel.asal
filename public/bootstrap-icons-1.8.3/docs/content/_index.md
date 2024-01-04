@@ -165,7 +165,7 @@ For purely decorative icons, add `aria-hidden="true"`. Otherwise, provide an app
       <img src="/assets/img/bootstrap.svg" alt="Bootstrap" width="32" height="32">
     </div>
 {{< highlight html >}}
-<!-- alt="..." on <img> element -->
+<!-- alt="..." on <images> element -->
 <img src="/assets/img/bootstrap.svg" alt="Bootstrap" ...>
 {{< /highlight >}}
     <div class="bd-example">

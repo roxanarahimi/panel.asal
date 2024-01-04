@@ -3,7 +3,7 @@ window.onload = function () {
 
   var Cropper = window.Cropper;
   var URL = window.URL || window.webkitURL;
-  var container = document.querySelector('.img-container');
+  var container = document.querySelector('.images-container');
   var image = container.getElementsByTagName('img').item(0);
   var download = document.getElementById('download');
   var actions = document.getElementById('actions');
@@ -16,7 +16,7 @@ window.onload = function () {
   var dataScaleY = document.getElementById('dataScaleY');
   var options = {
     aspectRatio: 16 / 9,
-    preview: '.img-preview',
+    preview: '.images-preview',
     ready: function (e) {
       console.log(e.type);
     },

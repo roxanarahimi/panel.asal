@@ -130,6 +130,7 @@ class OrderResource extends JsonResource
             "amount" => $this->amount,
             "address" => $this->address,
             "payment" => $payment,
+            "pay" => $this->payment,
             "payed" => $payed,
             "status" => $status,
             "percent" => $percent,

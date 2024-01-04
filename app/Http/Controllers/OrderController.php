@@ -112,6 +112,11 @@ class OrderController extends Controller
         try {
             $order->update($request->all(['status', 'payment','payed']));
 
+            if ($request['status'] === 'in-progress'){
+                Order::create([
+                   'user_id'=> $order['user_id']
+                ]);
+            }
             return response(new OrderResource($order), 200);
 
         } catch (\Exception $exception) {

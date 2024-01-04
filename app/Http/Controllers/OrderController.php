@@ -59,7 +59,7 @@ class OrderController extends Controller
 //                dd($cart);
             }
 
-            $item = OrderItem::where('product_id', $request['product_id'])->where('order_id', $cart['id'])->first();
+            $item = OrderItem::where('product_size_id', $request['product_size_id'])->where('order_id', $cart['id'])->first();
             if ($item) {
                 $q = $item['quantity'] + $request['quantity'];
                 $item->update(['quantity' => $q]);

@@ -166,14 +166,11 @@ class AuthController extends Controller
     public function register(Request $request)
     {
 
-        $validator = Validator::make($request->all('name', 'email',),
+        $validator = Validator::make($request->all('mobile',),
             [
-                'email' => 'email|unique:users',
                 'mobile' => 'unique:users',
             ],
             [
-                'email.email' => 'این ایمیل نادرست است',
-                'email.unique' => 'این ایمیل قبلا ثبت شده',
                 'mobile.unique' => 'این شماره موبایل قبلا ثبت شده',
 
             ]

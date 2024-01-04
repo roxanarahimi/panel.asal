@@ -109,6 +109,7 @@ class UserResource extends JsonResource
             "allOrders" => $allOrders,
 //            "addresses" =>  UserAddressResource::collection($this->addresses),
             "address" => $this->address,
+            "postal_code" => $this->postal_code,
             "city_id" => $this->city_id,
             "active" => $this->active,
 

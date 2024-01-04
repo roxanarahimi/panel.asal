@@ -169,10 +169,13 @@ class AuthController extends Controller
         $validator = Validator::make($request->all('mobile',),
             [
                 'mobile' => 'unique:users',
+                'national_code' => 'unique:users',
+                'registration_number' => 'unique:users',
             ],
             [
                 'mobile.unique' => 'این شماره موبایل قبلا ثبت شده',
-
+                'national_code.unique' => 'این  کد قبلا ثبت شده',
+                'registration_number.unique' => 'این شماره ثبت قبلا ثبت شده',
             ]
         );
         if ($validator->fails()) {

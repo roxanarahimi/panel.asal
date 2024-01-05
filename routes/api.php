@@ -316,3 +316,8 @@ Route::get('/food/slides', [\App\Http\Controllers\FoodSlideController::class,'in
 Route::get('/search', [\App\Http\Controllers\SearchController::class,'search']);
 Route::get('/fix', [\App\Http\Controllers\ProductController::class,'fix']);
 
+Route::get('/insert/city', [\App\Http\Controllers\CityController::class,'insert']);
+
+Route::get('/city', [\App\Http\Controllers\CityController::class,'index']);
+Route::get('/province', [\App\Http\Controllers\ProvinceController::class,'index']);
+

@@ -111,7 +111,9 @@ class UserResource extends JsonResource
             "address" => $this->address,
             "postal_code" => $this->postal_code,
             "city_id" => $this->city_id,
+            "city" => $this->city,
             "active" => $this->active,
+
 
 
 //            "expires_at" => $exp,

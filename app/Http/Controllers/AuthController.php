@@ -133,10 +133,9 @@ class AuthController extends Controller
     {
         try {
             $user = User::where('mobile', $request->mobile)->where('scope','user')->first();
-            $code = Redis::where('key', $request->mobile)->first();
+            $code = Redis::orderByDesc()->where('key', $request->mobile)->first();
             if ($user && $code) {
 
-                return response([$request['password'] , $code['value']],500);
                 if ((integer)$request['password'] == (integer)$code['value']) {
 
                     $token = $user->createToken('user')->accessToken;

@@ -90,6 +90,7 @@ class UserResource extends JsonResource
             "name" => $this->name,
             "email" => $this->email,
             "type" => $type,
+            "typeEn" => $this->type,
             "national_code" => $this->national_code,
             "registration_number" => $this->registration_number,
             "operator" => $this->operator,

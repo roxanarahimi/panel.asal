@@ -134,14 +134,9 @@ class AuthController extends Controller
         try {
             $user = User::where('mobile', $request->mobile)->where('scope','user')->first();
             $code = Redis::where('key', $request->mobile)->first();
-//            if ($code['created_at'] > date() + 1) {
-//                $code->delete();
-//                $response = ["password" => ["کد وارد شده اشتباه است"]];
-//                return response($response, 422);
-//            }//todo check codes time.
-
             if ($user && $code) {
 
+                return response([$user, $code],500);
                 if ($request['password'] == $code['value']) {
 
                     $token = $user->createToken('user')->accessToken;

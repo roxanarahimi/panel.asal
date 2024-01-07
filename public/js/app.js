@@ -20648,7 +20648,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   national_code: document.querySelector('#national_code').value,
                   phone: document.querySelector('#phone').value,
                   mobile: document.querySelector('#mobile').value,
-                  city_id: selectedProvince.value.id,
+                  city_id: document.querySelector('#city_id').value,
                   address: document.querySelector('#address').value,
                   postal_code: document.querySelector('#postal_code').value,
                   scope: 'user',
@@ -20658,8 +20658,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 if (_this2.type == 'legal') {
                   info['registration_number'] = document.querySelector('#registration_number').value;
                   info['operator'] = document.querySelector('#operator').value;
-                  info['img1'] = document.querySelector('#img1').value;
-                  info['img2'] = document.querySelector('#img2').value;
+                  info['img1'] = document.querySelector('#Image_1_code').value;
+                  info['img2'] = document.querySelector('#Image_2_code').value;
                 }
 
                 _context5.next = 11;

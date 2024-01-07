@@ -112,7 +112,16 @@ class UserResource extends JsonResource
             "address" => $this->address,
             "postal_code" => $this->postal_code,
             "city_id" => $this->city_id,
-            "city" => $this->city,
+            "city" => [
+                "id" => $this->city->id,
+                "title" => $this->city->title,
+                "province_id" => $this->city->province_id,
+                "province" => [
+                    "id" => $this->city->province->id,
+                    "title" => $this->city->province->title,
+//                    "cities" => $this->city->province->cities,
+                ],
+            ],
             "active" => $this->active,
 
 

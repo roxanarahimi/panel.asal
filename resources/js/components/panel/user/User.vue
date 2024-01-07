@@ -2,7 +2,7 @@
     <transition name = "route" mode = "out-in" appear>
         <section class = "" v-if = "data.id">
             <div class = "d-inline-block">
-                <h3 class = "mb-4 fw-bold d-block">اطلاعات کاربر</h3>
+                <h3 class = "mb-4 fw-bold d-block">اطلاعات کاربر({{ data.type }})</h3>
             </div>
             <!--            <router-link :to = "'/panel/edit/user/'+data.id" class = "text-dark">-->
             <!--                <span title = "ویرایش محصول" class = "mx-3 p-2 d-inline-block align-middle bg-dark text-light rounded-circle">-->
@@ -12,7 +12,7 @@
 
             <div class = "row mt-3">
                 <div class = "col-md-6 col-lg-4 col-xxl-3 mb-3 h-100">
-                    <div class = "card">
+                    <div class = "card h-100">
                         <!-- <images  class="card-images-top" alt="..."> -->
                         <div class = "card-body text-center pt-3">
                             <!-- <i class="bi bi-person-circle"></i> -->
@@ -45,11 +45,37 @@
                                     <tbody>
 
                                     <tr>
-                                        <td></td>
-                                        <td>{{ data.city_id }}</td>
+                                        <td>{{ data.city.province.title}}</td>
+                                        <td>{{ data.city.title}}</td>
                                         <td>{{ data.postal_code }}</td>
                                         <td>{{ data.phone }}</td>
                                         <td>{{ data.address }}</td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-if="data.typeEn == 'legal'" class = "col-12 mb-3">
+                        <div class = "card">
+                            <div class = "card-body">
+                                <table class = "table">
+                                    <thead>
+                                    <tr>
+                                        <th>نام شرکت</th>
+                                        <th>شناسه ملی</th>
+                                        <th>شماره ثبت</th>
+                                        <th>نام اوپراتور</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    <tr>
+                                        <td>{{ data.name}}</td>
+                                        <td>{{ data.national_code}}</td>
+                                        <td>{{ data.registration_number }}</td>
+                                        <td>{{ data.operator }}</td>
                                     </tr>
 
                                     </tbody>

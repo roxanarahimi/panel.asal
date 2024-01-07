@@ -183,14 +183,14 @@ class AuthController extends Controller
             $name = 'user_' . $user['id'] . '_' . uniqid() . '.jpg';
             $image_path = (new ImageController)->uploadImage($request['img1'], $name, 'images/users/');
             $user->update(['image1' => '/' . $image_path]);
-//            (new ImageController)->resizeImage('images/users/',$name);
+            (new ImageController)->resizeImage('images/users/',$name);
 
         }
         if ($request['img2']){
             $name2 = 'user_' . $user['id'] . '_' . uniqid() . '.jpg';
             $image_path2 = (new ImageController)->uploadImage($request['img2'], $name2, 'images/users/');
             $user->update(['image2' => '/' . $image_path2]);
-//            (new ImageController)->resizeImage('images/users/',$name2);
+            (new ImageController)->resizeImage('images/users/',$name2);
 
         }
 

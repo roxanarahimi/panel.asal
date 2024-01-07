@@ -68,7 +68,7 @@
                                         <div id="registration_numberHelp" class="form-text error"></div>
                                         <p class="form-text error m-0" v-for="e in errors.registration_number">{{ e }}</p>
                                     </div>
-                                    <div class="col-md-3 mb-3">
+                                    <div v-if="type == 'legal'" class="col-md-3 mb-3">
                                         <label for="operator" class="form-label">نام اوپراتور</label>
                                         <input id="operator" type="text" :class="{hasError: errors.operator}" :value="data.operator"
                                                class="form-control" aria-describedby="operatorHelp" required>

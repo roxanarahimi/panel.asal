@@ -120,16 +120,14 @@ class UserController extends Controller
 
         $validator = Validator::make($request->all('name', 'email', 'password', 'new_password'),
             [
-                'name' => 'required|max:255',
-                'email' => 'required|email|max:255|unique:users,email,' . $user['id'],
-                'new_password' => 'nullable|min:3',
+                'mobile' => 'unique:users',
+                'national_code' => 'unique:users',
+                'registration_number' => 'unique:users',
             ],
             [
-                'name.required' => 'لطفا نام را وارد کنید',
-                'name.max' => 'نام بیش از حد طولانی است',
-                'email.required' => 'لطفا ایمیل را وارد کنید',
-                'email.unique' => 'این ایمیل قبلا ثبت شده',
-                'new_password.min' => 'لطفا حد اقل 3 کاراکتر وارد کنید',
+                'mobile.unique' => 'این شماره موبایل قبلا ثبت شده',
+                'national_code.unique' => 'این  کد قبلا ثبت شده',
+                'registration_number.unique' => 'این شماره ثبت قبلا ثبت شده',
             ]
         );
         if ($validator->fails()) {
@@ -137,11 +135,21 @@ class UserController extends Controller
         }
 
         try {
-            $user->update($request->all());
-            if ($request['password']) {
-                $user->update([
-                    'password' => Hash::make($request['password'])
-                ]);
+            $user->update($request->except('img1','img2'));
+
+            if ($request['img1']){
+                $name = 'user_' . $user['id'] . '_' . uniqid() . '.jpg';
+                $image_path = (new ImageController)->uploadImage($request['img1'], $name, 'images/users/');
+                $user->update(['image1' => '/' . $image_path]);
+            (new ImageController)->resizeImage('images/users/',$name);
+
+            }
+            if ($request['img2']){
+                $name2 = 'user_' . $user['id'] . '_' . uniqid() . '.jpg';
+                $image_path2 = (new ImageController)->uploadImage($request['img2'], $name2, 'images/users/');
+                $user->update(['image2' => '/' . $image_path2]);
+            (new ImageController)->resizeImage('images/users/',$name2);
+
             }
             return response(new UserResource($user), 200);
 

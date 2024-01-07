@@ -149,7 +149,7 @@ export default {
             image_names: [],
             imgRequired: false,
             hasCaption: false,
-            aspect: 16 / 9,
+            aspect: false,
             isDefined: false,
             enableClick: true,
             features: [],

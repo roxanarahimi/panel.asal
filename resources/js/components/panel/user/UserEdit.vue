@@ -8,13 +8,22 @@
                     <div v-if="isDefined" class="card">
                         <div class="card-body">
                             <form id="editForm">
-                                <!--                                <div class = "row">-->
-                                <!--                                    <div class = "col-12 mb-3">-->
-                                <!--                                        <label class = "form-label">آواتار</label><br/>-->
-                                <!--                                        <image-cropper name = "index" :src = "data.image" caption = "" :hasCaption = "hasCaption" :isRequired = "imgRequired" :aspect = "aspect"/>-->
-                                <!--                                        <div id = "imageHelp" class = "form-text error"></div>-->
-                                <!--                                    </div>-->
-                                <!--                                </div>-->
+                                <div v-if="type == 'legal'" class="row">
+                                    <div class="col-12 mb-3">
+                                        <label class="form-label">تصویر آخرین روزنامه رسمی شرکت</label><br/>
+                                        <image-cropper :name="1" :src="data.image1" caption=""
+                                                       :hasCaption="hasCaption" :isRequired="imgRequired"
+                                                       :aspect="aspect"/>
+                                        <div id="image1Help" class="form-text error"></div>
+                                    </div>
+                                    <div class="col-12 mb-3">
+                                        <label class="form-label">تصویر اساس نامه شرکت</label><br/>
+                                        <image-cropper :name="2" :src="data.image2" caption=""
+                                                       :hasCaption="hasCaption" :isRequired="imgRequired"
+                                                       :aspect="aspect"/>
+                                        <div id="image2Help" class="form-text error"></div>
+                                    </div>
+                                </div>
                                 <div class="row">
                                     <div class="col-md-3 mb-3">
                                         <label for="type" class="form-label">نوع کاربر</label>
@@ -23,7 +32,7 @@
                                             <option :selected="data.type === 'حقیقی'" value="real">حقیقی</option>
                                             <option :selected="data.type === 'حقوقی'" value="legal">حقوقی</option>
                                         </select>
-                                        <div id="tyoeHelp" class="form-text error"></div>
+                                        <div id="typeHelp" class="form-text error"></div>
                                     </div>
                                     <div class="col-md-3 mb-3">
                                         <label for="name" class="form-label">نام</label>
@@ -32,7 +41,6 @@
                                         <div id="nameHelp" class="form-text error"></div>
                                         <p class="form-text error m-0" v-for="e in errors.name">{{ e }}</p>
                                     </div>
-
                                     <div class="col-md-3 mb-3">
                                         <label for="mobile" class="form-label">موبایل</label>
                                         <input id="mobile" type="number" :class="{hasError: errors.mobile}"
@@ -41,13 +49,31 @@
                                         <div id="mobileHelp" class="form-text error"></div>
                                         <p class="form-text error m-0" v-for="e in errors.mobile">{{ e }}</p>
                                     </div>
+
                                     <div class="col-md-3 mb-3">
-                                        <label for="national_code" class="form-label">کد ملی</label>
+                                        <label  v-if="type == 'real'" for="national_code" class="form-label">کد ملی</label>
+                                        <label  v-if="type == 'legal'" for="national_code" class="form-label">شناسه ملی شرکت</label>
                                         <input id="national_code" type="number"
                                                :class="{hasError: errors.national_code}" :value="data.national_code"
                                                class="form-control" aria-describedby="national_codeHelp" required>
                                         <div id="national_codeHelp" class="form-text error"></div>
                                         <p class="form-text error m-0" v-for="e in errors.national_code">{{ e }}</p>
+                                    </div>
+
+                                    <div v-if="type == 'legal'" class="col-md-3 mb-3">
+                                        <label for="registration_number" class="form-label">شماره ثبت شرکت</label>
+                                        <input id="registration_number" type="number" :class="{hasError: errors.registration_number}"
+                                               :value="data.registration_number" class="form-control" name="registration_number"
+                                               aria-describedby="registration_numberHelp" required>
+                                        <div id="registration_numberHelp" class="form-text error"></div>
+                                        <p class="form-text error m-0" v-for="e in errors.registration_number">{{ e }}</p>
+                                    </div>
+                                    <div class="col-md-3 mb-3">
+                                        <label for="operator" class="form-label">نام اوپراتور</label>
+                                        <input id="operator" type="text" :class="{hasError: errors.operator}" :value="data.operator"
+                                               class="form-control" aria-describedby="operatorHelp" required>
+                                        <div id="operatorHelp" class="form-text error"></div>
+                                        <p class="form-text error m-0" v-for="e in errors.operator">{{ e }}</p>
                                     </div>
                                     <div class="col-md-3 mb-3">
                                         <label for="phone" class="form-label">تلفن</label>
@@ -56,6 +82,35 @@
                                                aria-describedby="phoneHelp" required>
                                         <div id="phoneHelp" class="form-text error"></div>
                                         <p class="form-text error m-0" v-for="e in errors.phone">{{ e }}</p>
+                                    </div>
+                                    <div class="col-md-3 mb-3">
+                                        <label for="province_id" class="form-label">استان</label>
+                                        <select @change="updateCities" class="form-select" id="province_id" aria-describedby="province_idHelp" aria-label="province_id" required="">
+                                            <option v-for="item in provinces" :selected="data.city.province_id == item.id" :value="item.id">{{ item.title }}</option>
+                                        </select>
+                                        <div id="provinceHelp" class="form-text error"></div>
+                                    </div>
+                                    <div class="col-md-3 mb-3">
+                                        <label for="city_id" class="form-label">شهر</label>
+                                        <select class="form-select" id="city_id" aria-describedby="city_idHelp" aria-label="city_id" required="">
+                                            <option v-for="item in cities" :selected="data.city.id == item.id" :value="item.id">{{ item.title }}</option>
+                                        </select>
+                                        <div id="city_idHelp" class="form-text error"></div>
+                                    </div>
+                                    <div class="col-md-3 mb-3">
+                                        <label for="postal_code" class="form-label">کد پستی</label>
+                                        <input id="postal_code" type="number" :class="{hasError: errors.postal_code}"
+                                               :value="data.postal_code" class="form-control" aria-describedby="postal_codeHelp"
+                                               required>
+                                        <div id="postal_codeHelp" class="form-text error"></div>
+                                        <p class="form-text error m-0" v-for="e in errors.mobile">{{ e }}</p>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="address" class="form-label">آدرس</label>
+                                        <input id="address" type="text" :class="{hasError: errors.address}" :value="data.address"
+                                               class="form-control" aria-describedby="addressHelp" required>
+                                        <div id="addressHelp" class="form-text error"></div>
+                                        <p class="form-text error m-0" v-for="e in errors.address">{{ e }}</p>
                                     </div>
 
                                     <div class="col-md-12 mb-3">
@@ -99,7 +154,9 @@ export default {
             enableClick: true,
             features: [],
             progress: 0,
-            type: ''
+            type: '',
+            provinces: [],
+            cities: [],
         }
     },
 
@@ -122,6 +179,7 @@ export default {
                 })
                 .then(() => {
                     this.updateType();
+                    this.loadProvinces();
                 })
                 .catch();
 
@@ -144,26 +202,25 @@ export default {
             });
 
             if (emptyFieldsCount === 0) {
-                let features = [];
-                for (let i = 0; i < document.getElementsByName('featureLabel').length; i++) {
-                    features.push('{"label": "' + document.getElementsByName('featureLabel')[i].value + '", "value": "' + document.getElementsByName('featureValue')[i].value + '"}');
+
+                let info = {
+                    name: document.querySelector('#name').value,
+                    national_code: document.querySelector('#national_code').value,
+                    phone: document.querySelector('#phone').value,
+                    mobile: document.querySelector('#mobile').value,
+                    city_id: selectedProvince.value.id,
+                    address: document.querySelector('#address').value,
+                    postal_code: document.querySelector('#postal_code').value,
+                    scope: 'user',
+                    type: this.type,
+                };
+                if (this.type == 'legal') {
+                    info['registration_number'] = document.querySelector('#registration_number').value;
+                    info['operator'] = document.querySelector('#operator').value;
+                    info['img1'] = document.querySelector('#img1').value;
+                    info['img2'] = document.querySelector('#img2').value;
                 }
-                if (document.getElementsByName('featureLabel').length === 0) {
-                    features = '[]';
-                } else {
-                    features = '[' + features.toString() + ']';
-                }
-                await axios.post('/api/panel/user/' + this.$route.params.id,
-                    {
-                        // image: document.getElementById('Image_index_code').value,
-                        name: document.getElementById('name').value,
-                        phone: document.getElementById('phone').value,
-                        mobile: document.getElementById('mobile').value,
-                        type: document.getElementById('type').value,
-                        current_password: document.getElementById('current_password').value,
-                        new_password: document.getElementById('new_password').value,
-                        new_password_repeat: document.getElementById('new_password_repeat').value,
-                    })
+                await axios.post('/api/panel/user/' + this.$route.params.id,info)
                     .then((response) => {
                         if (response.status === 200) {
                             setTimeout(() => {
@@ -173,11 +230,6 @@ export default {
                         }
                     })
                     .catch((error) => {
-                        // console.log(error);
-                        // console.log(error.message);
-                        // console.log(error.response);
-                        // console.log(error.response.data);
-                        // console.log(error.response.data.exception_code);
                         if (error.status === 422) {
                             let errorList = Array(error.response.data);
                             for (var i = 0; i < errorList.length; i++) {
@@ -222,9 +274,23 @@ export default {
 
         },
 
+        loadProvinces(){
+            axios.get('/api/province')
+            .then((response)=>{
+                this.provinces = response.data;
+            })
+            .then(()=>{
+                this.updateCities();
+            })
+           .catch((error)=>{ console.error(error)});
+        },
         updateType() {
             this.type = document.querySelector('#type').value;
 
+        },
+        updateCities() {
+            let province = this.provinces.find((element) => element.id == document.querySelector('#province_id').value);
+            this.cities = province.cities;
         }
 
 

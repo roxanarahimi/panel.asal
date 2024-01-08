@@ -18,6 +18,14 @@ class CityController extends Controller
         }catch(\Exception $exception){
             return $exception;
         }
+    } public function cityProvince($id)
+    {
+        try {
+            $cities = City::orderBy('title')->where('province_id', $id)->get();
+            return response(CityResource::collection($cities), 200);
+        }catch(\Exception $exception){
+            return $exception;
+        }
     }
 
     public function insert(){
@@ -1195,5 +1203,6 @@ class CityController extends Controller
             Province::create($item2);
         }
     }
+
 
 }

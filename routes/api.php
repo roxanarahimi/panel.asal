@@ -320,4 +320,5 @@ Route::get('/insert/city', [\App\Http\Controllers\CityController::class,'insert'
 
 Route::get('/city', [\App\Http\Controllers\CityController::class,'index']);
 Route::get('/province', [\App\Http\Controllers\ProvinceController::class,'index']);
+Route::get('/cities/province/{id}', [\App\Http\Controllers\CityController::class,'cityProvince']);
 
